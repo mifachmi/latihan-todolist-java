@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/College Material/Kuliah/Semester 5/Pemrograman Perangkat Bergerak/Praktikum/mg3/ToDoListApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/College Material/Kuliah/Semester 5/Pemrograman Perangkat Bergerak/Praktikum/mg3/ToDoListApp/app/src/main/res/layout/activity_all.xml" value="0.25" />
+        <entry key="..\:/College Material/Kuliah/Semester 5/Pemrograman Perangkat Bergerak/Praktikum/mg3/ToDoListApp/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/College Material/Kuliah/Semester 5/Pemrograman Perangkat Bergerak/Praktikum/mg3/ToDoListApp/app/src/main/res/layout/button_nav.xml" value="0.25" />
+        <entry key="..\:/College Material/Kuliah/Semester 5/Pemrograman Perangkat Bergerak/Praktikum/mg3/ToDoListApp/app/src/main/res/layout/fragment_dialog_task.xml" value="0.264" />
+        <entry key="..\:/College Material/Kuliah/Semester 5/Pemrograman Perangkat Bergerak/Praktikum/mg3/ToDoListApp/app/src/main/res/layout/task_list.xml" value="0.2964824120603015" />
+        <entry key="..\:/College Material/Kuliah/Semester 5/Pemrograman Perangkat Bergerak/Praktikum/mg3/ToDoListApp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25" />
       </map>
     </option>
   </component>

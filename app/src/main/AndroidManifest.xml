@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ToDoList">
         <activity
+            android:name=".DoneActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AllActivity"
+            android:exported="true" />
+        <activity
+            android:name=".UpcomingActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
