@@ -1,14 +1,16 @@
-package com.example.todolist;
+package com.example.todolist.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class AllActivity extends AppCompatActivity {
+import com.example.todolist.R;
+
+public class UpcomingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all);
+        setContentView(R.layout.activity_upcoming);
     }
 }

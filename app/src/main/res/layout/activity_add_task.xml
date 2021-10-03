@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".DialogTaskFragment">
+    android:gravity="center_vertical"
+    android:padding="32dp"
+    tools:context=".activity.AddTaskActivity">
 
-    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/tvIdTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:visibility="gone"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,9 +24,9 @@
         android:text="@string/nama_task"/>
 
     <EditText
+        android:id="@+id/etNameTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints="Nama Task"
         android:inputType="text" />
 
     <TextView
@@ -29,9 +37,9 @@
         android:text="@string/description"/>
 
     <EditText
+        android:id="@+id/etDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints="Nama Task"
         android:inputType="text" />
 
     <TextView
@@ -46,18 +54,24 @@
         android:layout_height="wrap_content">
 
         <EditText
+            android:id="@+id/etDueDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints="Nama Task"
-            android:inputType="text" />
+            android:inputType="none"
+            android:focusable="false"
+            android:clickable="false"
+            tools:ignore="TextFields" />
 
         <ImageButton
-            android:id="@+id/btn_once_date"
+            android:id="@+id/btnPickDate"
             android:layout_gravity="right"
             style="@style/Base.Widget.AppCompat.ImageButton"
             android:layout_width="40dp"
             android:background="@color/white"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:contentDescription="@string/date_picker"
             android:src="@drawable/ic_baseline_calendar_today_24"
             tools:ignore="RtlHardcoded" />
@@ -72,6 +86,7 @@
         android:weightSum="2">
 
         <Button
+            android:id="@+id/btnSaveTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
@@ -79,6 +94,7 @@
             android:text="@string/save"/>
 
         <Button
+            android:id="@+id/btnCancelTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
