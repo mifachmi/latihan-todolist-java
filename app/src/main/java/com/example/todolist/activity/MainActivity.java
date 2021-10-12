@@ -1,6 +1,8 @@
 package com.example.todolist.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -24,23 +26,36 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private DatabaseHelper databaseHelper;
+    private SharedPreferences sharedPreferences;
+    private ActivityMainBinding binding;
     ArrayList<String> task_id, task_name, task_desc, task_date;
     TasksAdapter tasksAdapter;
+    String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        com.example.todolist.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#03A9F4")));
 
+        sharedPreferences = getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE);
+        bindingLinearLayout();
+
         binding.fabAddTask.setOnClickListener(this);
+        binding.btnLogout.setOnClickListener(this);
         createObjectTask();
 
         tasksAdapter = new TasksAdapter(MainActivity.this, this, task_id, task_name, task_desc, task_date);
         binding.rvTask.setAdapter(tasksAdapter);
         binding.rvTask.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         binding.rvTask.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+    }
+
+    private void bindingLinearLayout() {
+        email = sharedPreferences.getString("EMAIL", "");
+        Toast.makeText(this, email, Toast.LENGTH_SHORT).show();
+        binding.tvWelcome.setText(email);
     }
 
     @Override
@@ -87,5 +102,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, AddTaskActivity.class);
             startActivity(intent);
         }
+        if (v.getId() == R.id.btnLogout) {
+            onClickBtnLogout();
+        }
+    }
+
+    private void onClickBtnLogout() {
+        clearSharedPref();
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+    }
+
+    private void clearSharedPref() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("IS_LOGIN", false);
+        editor.putString("EMAIL", "");
+        editor.putString("PASSWORD", "");
+        editor.apply();
     }
 }

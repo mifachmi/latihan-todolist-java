@@ -10,7 +10,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-
     Context context;
     private static final String DATABASE_NAME = "my_todolist_db";
     private static final int DATABASE_VERSION = 2;

@@ -10,9 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ToDoList">
         <activity
+            android:name=".activity.MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:exported="true"
+            android:parentActivityName=".activity.LoginActivity"/>
+        <activity
             android:name=".activity.AddTaskActivity"
             android:exported="true"
-            android:parentActivityName=".activity.MainActivity"/>
+            android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.DoneActivity"
             android:exported="true" />
@@ -23,7 +30,7 @@
             android:name=".activity.UpcomingActivity"
             android:exported="true" />
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
