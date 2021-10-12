@@ -33,9 +33,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
     }
 
     public static class TaskViewHolder extends RecyclerView.ViewHolder {
-
         TextView task_id, task_name, task_desc, task_date;
-        CheckBox cbTask;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -43,7 +41,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
             task_name = itemView.findViewById(R.id.tvNamatask);
             task_desc = itemView.findViewById(R.id.tvDescription);
             task_date = itemView.findViewById(R.id.tvDueDate);
-            cbTask = itemView.findViewById(R.id.cbTask);
         }
     }
 
@@ -61,17 +58,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
         holder.task_name.setText(task_name.get(position).toString());
         holder.task_desc.setText(task_desc.get(position).toString());
         holder.task_date.setText(task_date.get(position).toString());
-        holder.cbTask.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            if (isChecked) {
-                holder.cbTask.setPaintFlags(holder.cbTask.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.cbTask.setTextColor(Color.argb(128, 0, 0, 0));
-                holder.cbTask.setChecked(true);
-            } else {
-                holder.cbTask.setPaintFlags(holder.cbTask.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.cbTask.setTextColor(Color.argb(255, 0, 0, 0));
-                holder.cbTask.setChecked(false);
-            }
-        });
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, AddTaskActivity.class);
             intent.putExtra("id", String.valueOf(id_task.get(position)));

@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<String> task_id, task_name, task_desc, task_date;
     TasksAdapter tasksAdapter;
     String email;
+    int user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void bindingLinearLayout() {
         email = sharedPreferences.getString("EMAIL", "");
-        Toast.makeText(this, email, Toast.LENGTH_SHORT).show();
+        user_id = sharedPreferences.getInt("USER_ID", 0);
+//        Toast.makeText(this, email + "------" + user_id, Toast.LENGTH_SHORT).show();
         binding.tvWelcome.setText(email);
     }
 
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void storeDataInArrays() {
-        Cursor cursor = databaseHelper.getAllTask();
+        Cursor cursor = databaseHelper.getAllTask(user_id);
         if(cursor.getCount() == 0) {
             Toast.makeText(this, "No Data", Toast.LENGTH_SHORT).show();
         } else {
@@ -100,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if (v.getId() == R.id.fabAddTask) {
             Intent intent = new Intent(this, AddTaskActivity.class);
+            intent.putExtra("user_id", user_id);
+            Log.d("TAG Main", String.valueOf(user_id));
             startActivity(intent);
         }
         if (v.getId() == R.id.btnLogout) {

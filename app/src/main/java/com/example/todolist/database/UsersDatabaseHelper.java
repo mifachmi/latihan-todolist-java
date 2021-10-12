@@ -14,7 +14,7 @@ public class UsersDatabaseHelper extends SQLiteOpenHelper {
 
     Context context;
     private static final String DATABASE_NAME = "my_todolist_db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     private static final String TABLE_NAME = "my_users";
     private static final String COLUMN_ID = "id";
@@ -75,5 +75,23 @@ public class UsersDatabaseHelper extends SQLiteOpenHelper {
             }
         }
         return false;
+    }
+
+    @SuppressLint("Recycle")
+    public int getIdUser(String _email, String _password) {
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME + " WHERE " + COLUMN_EMAIL + " = ? AND " + COLUMN_PASSWORD + " = ?";
+        Cursor cursor;
+
+        if (db != null) {
+            cursor = db.rawQuery(query, new String[] {_email, _password});
+
+            if (cursor.getCount() > 0 && cursor.moveToFirst()) {
+                return cursor.getInt(0);
+            } else {
+                return 0;
+            }
+        }
+        return 0;
     }
 }

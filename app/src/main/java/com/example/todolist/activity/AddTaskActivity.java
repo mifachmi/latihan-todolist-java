@@ -3,6 +3,7 @@ package com.example.todolist.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -23,7 +24,12 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
 
     private ActivityAddTaskBinding binding;
     private DatabaseHelper databaseHelper;
-    String id, task_name, task_desc, task_date;
+    String id;
+    String task_name;
+    String task_desc;
+    String task_date;
+    int task_user_id;
+    String _idTask, _nameTask, _descTask, _dueDateTask, _saveTaskBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +39,9 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         checkIntentData();
+        task_user_id = getIntent().getIntExtra("user_id", 0);
+        Log.d("TAG Add", String.valueOf(task_user_id));
+        binding.tvIdUserTask.setText(String.valueOf(task_user_id));
 
         binding.btnSaveTask.setOnClickListener(this);
         binding.btnCancelTask.setOnClickListener(this);
@@ -48,6 +57,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
             task_name = getIntent().getStringExtra("name");
             task_desc = getIntent().getStringExtra("desc");
             task_date = getIntent().getStringExtra("date");
+//            task_user_id = getIntent().getIntExtra("user_id", 0);
 
             binding.tvIdTask.setText(id);
             binding.etNameTask.setText(task_name);
@@ -60,6 +70,14 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
             binding.btnCancelTask.setText("DELETE");
             binding.btnCancelTask.setOnClickListener(v -> onClickBtnCancel());
         }
+    }
+
+    private void getTextFromWidget() {
+        _idTask = binding.tvIdTask.getText().toString();
+        _nameTask = binding.etNameTask.getText().toString();
+        _descTask = binding.etDescription.getText().toString();
+        _dueDateTask = binding.etDueDate.getText().toString();
+        _saveTaskBtn = (String) binding.btnSaveTask.getText();
     }
 
     @Override
@@ -97,7 +115,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         calendar.set(year, month, dayOfMonth);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
-        // Set text dari textview once
+        // Set text dari textview
         binding.etDueDate.setText(dateFormat.format(calendar.getTime()));
     }
 
@@ -111,25 +129,16 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void onClickBtnSave() {
-        if (binding.etNameTask.getText().toString().equals("")
-                || binding.etDescription.getText().toString().equals("")
-                || binding.etDueDate.getText().toString().equals("")) {
+        getTextFromWidget();
+        if (_nameTask.equals("") || _descTask.equals("") || _dueDateTask.equals("")) {
             Toast.makeText(this, "Form must be filled", Toast.LENGTH_SHORT).show();
-        } else if (binding.btnSaveTask.getText().equals(String.valueOf(R.string.save))
-                || binding.tvIdTask.getText().equals("")) {
+        } else if (_saveTaskBtn.equals(String.valueOf(R.string.save)) || _idTask.equals("")) {
             databaseHelper = new DatabaseHelper(AddTaskActivity.this);
-            databaseHelper.addTask(
-                    binding.etNameTask.getText().toString(),
-                    binding.etDescription.getText().toString(),
-                    binding.etDueDate.getText().toString());
+            databaseHelper.addTask(_nameTask, _descTask, _dueDateTask, task_user_id);
             finish();
         } else {
             databaseHelper = new DatabaseHelper(this);
-            databaseHelper.updateData(
-                    binding.tvIdTask.getText().toString(),
-                    binding.etNameTask.getText().toString(),
-                    binding.etDescription.getText().toString(),
-                    binding.etDueDate.getText().toString());
+            databaseHelper.updateData(_idTask, _nameTask, _descTask, _dueDateTask);
             finish();
         }
         resetEditText();

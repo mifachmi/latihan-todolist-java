@@ -1,5 +1,6 @@
 package com.example.todolist.database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -12,13 +13,15 @@ import androidx.annotation.Nullable;
 public class DatabaseHelper extends SQLiteOpenHelper {
     Context context;
     private static final String DATABASE_NAME = "my_todolist_db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     private static final String TABLE_NAME = "my_tasks";
+    private static final String TABLE_NAME_USERS = "my_users";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_TASK_NAME = "task_name";
     private static final String COLUMN_DESCRIPTION = "task_desc";
     private static final String COLUMN_DATE = "task_date";
+    private static final String COLUMN_ID_USER = "users_id";
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -31,7 +34,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_TASK_NAME + " TEXT, " +
                 COLUMN_DESCRIPTION + " TEXT, " +
-                COLUMN_DATE + " TEXT);";
+                COLUMN_DATE + " TEXT, " +
+                COLUMN_ID_USER + " INTEGER, FOREIGN KEY" +
+                " (" + COLUMN_ID_USER + ") " + "REFERENCES " +
+                TABLE_NAME_USERS + " (" + COLUMN_ID + "));";
         db.execSQL(query);
     }
 
@@ -41,13 +47,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addTask(String name_task, String desc_task, String date_task) {
+    @SuppressLint("Recycle")
+    public void addTask(String name_task, String desc_task, String date_task, int user_id) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(COLUMN_TASK_NAME, name_task);
         cv.put(COLUMN_DESCRIPTION, desc_task);
         cv.put(COLUMN_DATE, date_task);
+        cv.put(COLUMN_ID_USER, user_id);
 
         long result = db.insert(TABLE_NAME, null, cv);
         if (result == -1) {
@@ -57,8 +65,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getAllTask() {
-        String selectQuery = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COLUMN_DATE + " ASC";
+    @SuppressLint("Recycle")
+    public Cursor getAllTask(int user_id) {
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID_USER + " = " +
+                user_id + " ORDER BY " + COLUMN_DATE + " ASC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
 
@@ -68,6 +78,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    @SuppressLint("Recycle")
     public void updateData(String task_id, String new_task_name, String new_task_desc, String new_task_date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -83,6 +94,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    @SuppressLint("Recycle")
     public void deleteData(String task_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         long result = db.delete(TABLE_NAME, "id=?", new String[]{task_id});
